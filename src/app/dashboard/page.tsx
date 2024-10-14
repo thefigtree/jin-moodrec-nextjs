@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 export default function Dashboard() {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   let children = <SignIn></SignIn>;
 

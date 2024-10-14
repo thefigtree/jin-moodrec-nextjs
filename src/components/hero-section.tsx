@@ -1,5 +1,6 @@
 import { Fugaz_One } from "next/font/google";
 import HeroButton from "./hero-button";
+import HeroCalendar from "./hero-calendar";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
@@ -27,6 +28,8 @@ export default function HeroSection() {
 
         <HeroButton text="Login" dark></HeroButton>
       </div>
+
+      <HeroCalendar></HeroCalendar>
     </div>
   );
 }

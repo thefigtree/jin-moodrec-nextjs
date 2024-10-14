@@ -15,6 +15,10 @@ export default function RootLayout({ children }) {
       <h1 className={"text-base sm:text-lg textGradient " + fugaz.className}>
         Mood Rec
       </h1>
+
+      <div className="flex items-center justify-center">
+        PLACEHOLDER CTA || STATS
+      </div>
     </header>
   );
 
