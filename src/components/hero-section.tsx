@@ -1,12 +1,13 @@
 import { Fugaz_One } from "next/font/google";
 import HeroButton from "./hero-button";
 import HeroCalendar from "./hero-calendar";
+import Link from "next/link";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function HeroSection() {
   return (
-    <div className="py-4 md:py-10 flex flex-col gap-4 sm:gap-8">
+    <div className="py-4 md:py-10 flex flex-col gap-8 sm:gap-10">
       <h1
         className={
           "text-5xl sm:text-text-6xl md:text-7xl text-center " + fugaz.className
@@ -24,12 +25,16 @@ export default function HeroSection() {
       </span>
 
       <div className="grid grid-cols-2 gap-4 w-fit mx-auto">
-        <HeroButton text="Sign Up"></HeroButton>
+        <Link href={"/dashboard"}>
+          <HeroButton text="Sign Up"></HeroButton>
+        </Link>
 
-        <HeroButton text="Login" dark></HeroButton>
+        <Link href={"/dashboard"}>
+          <HeroButton text="Login" dark></HeroButton>
+        </Link>
       </div>
 
-      <HeroCalendar></HeroCalendar>
+      <HeroCalendar demo></HeroCalendar>
     </div>
   );
 }
