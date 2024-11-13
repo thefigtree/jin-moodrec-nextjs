@@ -2,7 +2,8 @@ import { Fugaz_One, Open_Sans } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { AuthProvider } from "../context/AuthContext";
-import Head from "./head";
+import PreHead from "./pre-head";
+import SignOut from "../components/sign-out";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
@@ -20,10 +21,7 @@ export default function RootLayout({ children }) {
           Mood Rec
         </h1>
       </Link>
-
-      <div className="flex items-center justify-center">
-        PLACEHOLDER CTA || STATS
-      </div>
+      <SignOut></SignOut>
     </header>
   );
 
@@ -35,7 +33,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <Head></Head>
+      <PreHead></PreHead>
       <AuthProvider>
         <body
           className={

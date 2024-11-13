@@ -1,4 +1,4 @@
-export default function Head() {
+export default function PreHead() {
   return (
     <head>
       <link rel="icon" href="favicon.png" sizes="any" />

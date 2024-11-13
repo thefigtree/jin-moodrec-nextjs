@@ -56,6 +56,8 @@ export const gradients = {
   ],
 };
 
+// "/" 화면의 가짜 데이터
+
 export const baseRating = {
   "0": 2,
   "1": 5,

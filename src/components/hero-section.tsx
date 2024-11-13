@@ -2,6 +2,7 @@ import { Fugaz_One } from "next/font/google";
 import HeroButton from "./hero-button";
 import HeroCalendar from "./hero-calendar";
 import Link from "next/link";
+import Action from "./action";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
@@ -24,15 +25,7 @@ export default function HeroSection() {
         <span className="font-semibold">매일</span> 나의 기분을 기록해 보세요.
       </span>
 
-      <div className="grid grid-cols-2 gap-4 w-fit mx-auto">
-        <Link href={"/dashboard"}>
-          <HeroButton text="Sign Up"></HeroButton>
-        </Link>
-
-        <Link href={"/dashboard"}>
-          <HeroButton text="Login" dark></HeroButton>
-        </Link>
-      </div>
+      <Action></Action>
 
       <HeroCalendar demo></HeroCalendar>
     </div>
