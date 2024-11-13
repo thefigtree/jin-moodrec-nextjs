@@ -42,6 +42,7 @@ export default function Calendar(props) {
 
   const numericMonth = monthsArr.indexOf(selectedMonth);
   const data = completeData?.[selectedYear]?.[numericMonth] || {};
+  console.log("이번 달 데이터", completeData?.[selectedYear]?.[numericMonth]);
 
   function handleIncrementMonth(val) {
     // value +1 -1

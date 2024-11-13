@@ -14,11 +14,32 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 export default function DashboardSection() {
   const { currentUser, userDataObj, setUserDataObj, loading } = useAuth();
   const [data, setData] = useState({});
+  const now = new Date();
 
-  function countValues() {}
+  function countValues() {
+    let total_number_of_days = 0;
+    let sum_moods = 0;
+    for (let year in data) {
+      for (let month in data[year]) {
+        for (let day in data[year][month]) {
+          let days_mood = data[year][month][day];
+          total_number_of_days++;
+          sum_moods += days_mood;
+        }
+      }
+    }
+    return {
+      num_days: total_number_of_days,
+      average_mood: sum_moods / total_number_of_days,
+    };
+  }
 
-  async function handleMood(mood) {
-    const now = new Date();
+  const statuses = {
+    ...countValues(),
+    time_remaining: `${23 - now.getHours()}H ${60 - now.getMinutes()}M`,
+  };
+
+  async function handleSetMood(mood) {
     const day = now.getDate();
     const month = now.getMonth();
     const year = now.getFullYear();
@@ -31,14 +52,14 @@ export default function DashboardSection() {
       if (!newData?.[year]?.[month]) {
         newData[year][month] = {};
       }
-      newData[year][month][day] = mood;
 
-      // 현재 상태 업데이트
+      newData[year][month][day] = mood;
+      // update the current state
       setData(newData);
-      // 전역 상태 업데이트
+      // update the global state
       setUserDataObj(newData);
-      // 데이터베이스 업데이트
-      const docRef = doc(db, "user", currentUser.uid);
+      // update firebase
+      const docRef = doc(db, "users", currentUser.uid);
       const res = await setDoc(
         docRef,
         {
@@ -50,22 +71,16 @@ export default function DashboardSection() {
         },
         { merge: true }
       );
-    } catch (error) {
-      console.log("데이터를 불러오지 못했습니다.");
+    } catch (err) {
+      console.log("Failed to set data: ", err.message);
     }
   }
 
-  const statues = {
-    num_days: 14,
-    time_remaining: "13:14:26",
-    date: new Date().toDateString(),
-  };
-
   const moods = {
-    "$%^&*": "🤪",
+    "&*@#$": "😭",
     Sad: "🥲",
     Existing: "😶",
-    Good: "😆",
+    Good: "😊",
     Elated: "😍",
   };
 
@@ -77,48 +92,47 @@ export default function DashboardSection() {
   }, [currentUser, userDataObj]);
 
   if (loading) {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   if (!currentUser) {
-    return <SignIn></SignIn>;
+    return <SignIn />;
   }
 
   return (
     <div className="flex flex-col flex-1 gap-8 sm:gap-12 md:gap-16">
-      <div className="grid grid-cols-1 sm:grid-cols-3 bg-indigo-50 text-indigo-500">
-        {Object.keys(statues).map((status, index) => {
+      <div className="grid grid-cols-3 bg-indigo-50 text-indigo-500 p-4 gap-4 rounded-lg">
+        {Object.keys(statuses).map((status, statusIndex) => {
           return (
-            <div key={index} className="p-4 flex flex-col gap-1 sm:gap-2">
-              <p className="font-medium uppercase text-xs sm:text-sm">
-                {status.replaceAll("_", "")}
+            <div key={statusIndex} className=" flex flex-col gap-1 sm:gap-2">
+              <p className="font-medium capitalize text-xs sm:text-sm truncate">
+                {status.replaceAll("_", " ")}
               </p>
-              <p className={"text-base sm:text-lg " + fugaz.className}>
-                {statues[status]}
+              <p className={"text-base sm:text-lg truncate " + fugaz.className}>
+                {statuses[status]}
+                {status === "num_days" ? " 🔥" : ""}
               </p>
             </div>
           );
         })}
       </div>
-
       <h4
         className={
-          "text-4xl sm:text-5xl md:text-6xl text-center " + fugaz.className
+          "text-5xl sm:text-6xl md:text-7xl text-center " + fugaz.className
         }
       >
-        How do you <span className="textGradient">feel</span> today ?
+        How do you <span className="textGradient">feel</span> today?
       </h4>
-
       <div className="flex items-stretch flex-wrap gap-4">
         {Object.keys(moods).map((mood, moodIndex) => {
           return (
             <button
               onClick={() => {
                 const currentMoodValue = moodIndex + 1;
-                handleMood(currentMoodValue);
+                handleSetMood(currentMoodValue);
               }}
               className={
-                "p-4 px-5 rounded-2xl pupleShadow duration-200 bg-indigo-50 hover:bg-indigo-100 text-center flex flex-col gap-2 items-center flex-1 "
+                "p-4 px-5 rounded-2xl purpleShadow duration-200 bg-indigo-50 hover:bg-indigo-100 text-center flex flex-col items-center gap-2 flex-1 "
               }
               key={moodIndex}
             >
@@ -135,8 +149,7 @@ export default function DashboardSection() {
           );
         })}
       </div>
-
-      <HeroCalendar data={data} handleMood={handleMood}></HeroCalendar>
+      <HeroCalendar completeData={data} handleSetMood={handleSetMood} />
     </div>
   );
 }
