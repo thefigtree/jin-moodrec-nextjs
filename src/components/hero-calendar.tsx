@@ -32,7 +32,7 @@ const dayList = [
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Calendar(props) {
-  const { demo, completeData, handleMood } = props;
+  const { demo, completeData, handleSetMood } = props;
   const now = new Date();
   const currMonth = now.getMonth();
   const [selectedMonth, setSelectMonth] = useState(
@@ -42,7 +42,6 @@ export default function Calendar(props) {
 
   const numericMonth = monthsArr.indexOf(selectedMonth);
   const data = completeData?.[selectedYear]?.[numericMonth] || {};
-  console.log("이번 달 데이터", completeData?.[selectedYear]?.[numericMonth]);
 
   function handleIncrementMonth(val) {
     // value +1 -1
