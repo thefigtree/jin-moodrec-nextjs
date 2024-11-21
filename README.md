@@ -10,3 +10,8 @@
 
 - Front : NextJS, ,Typescript, Tailwind CSS, Context API
 - DB : Firebase
+
+## 테스트
+
+- ID: testuser@test.com
+- PASSWORD: testuser123
