@@ -8,7 +8,7 @@
 
 ## 개발 환경
 
-- Front : NextJS, ,Typescript, Tailwind CSS, Context API
+- Front : NextJS, Typescript, Tailwind CSS, Context API
 - DB : Firebase
 
 ## 테스트
